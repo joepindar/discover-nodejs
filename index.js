@@ -28,10 +28,22 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 var transports = {};
 
+function getTransport(name) {
+  if (!transports[name])
+    transports[name] = require('./transports/' + name);
+  return transports[name];
+}
+
 module.exports = {
   get TcpTransport() {
-    if (!transports.tcp)
-      transports.tcp = require('./transports/tcp');
-    return transports.tcp;
+    return getTransport('tcp');
+  },
+
+  get TlsTransport() {
+    return getTransport('tls');
+  },
+
+  get UdpTransport() {
+    return getTransport('udp');
   }
 };
